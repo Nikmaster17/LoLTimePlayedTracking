@@ -2,35 +2,39 @@
 
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [message, setMessage] = useState(null)
+  const [error, setError] = useState(null)
 
   async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
     setError(null)
+    setMessage(null)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    })
 
     if (error) {
       setError(error.message)
-      setLoading(false)
     } else {
-      router.push('/dashboard')
+      setMessage('Check your email for a password reset link.')
     }
+    setLoading(false)
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
       <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center text-amber-400">Log in</h1>
+        <h1 className="text-2xl font-bold mb-2 text-center text-amber-400">Forgot password</h1>
+        <p className="text-gray-400 text-sm text-center mb-6">
+          Enter your email and we&apos;ll send you a reset link.
+        </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block text-sm font-medium mb-1 text-gray-300" htmlFor="email">
@@ -45,37 +49,20 @@ export default function LoginPage() {
               className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 placeholder-gray-400"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-gray-300" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 placeholder-gray-400"
-            />
-          </div>
           {error && <p className="text-red-400 text-sm">{error}</p>}
+          {message && <p className="text-green-400 text-sm">{message}</p>}
           <button
             type="submit"
             disabled={loading}
             className="bg-teal-600 text-white rounded-lg py-2 font-medium hover:bg-teal-500 disabled:opacity-50"
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? 'Sending...' : 'Send reset link'}
           </button>
         </form>
         <p className="text-center text-sm mt-4 text-gray-400">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-teal-400 hover:underline">
-            Sign up
-          </Link>
-        </p>
-        <p className="text-center text-sm mt-2 text-gray-400">
-          <Link href="/forgot-password" className="text-teal-400 hover:underline">
-            Forgot password?
+          Remember your password?{' '}
+          <Link href="/login" className="text-teal-400 hover:underline">
+            Log in
           </Link>
         </p>
       </div>
