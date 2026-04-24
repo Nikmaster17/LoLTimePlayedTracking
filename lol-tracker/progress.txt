@@ -1,0 +1,109 @@
+PROGRESS.TXT — Gaming Time Tracker
+Generated: 2026-04-23
+Source: Code observation only. No runtime verification.
+
+=============================================================
+WHAT EXISTS TODAY (COMPLETE)
+=============================================================
+
+AUTH SYSTEM
+  [x] Email + password signup (Supabase signUp)
+  [x] Email + password login (Supabase signInWithPassword)
+  [x] Logout (signOut + redirect to /login)
+  [x] Auth guard hook (useAuth) — redirects unauthenticated users
+  [x] Forgot password flow (/forgot-password → email link)
+  [x] Password reset page (/reset-password via Supabase PASSWORD_RECOVERY event)
+  [x] 5-second timeout on reset link validation with expired state
+
+ROUTING
+  [x] Landing page (/)
+  [x] Login (/login)
+  [x] Signup (/signup)
+  [x] Forgot password (/forgot-password)
+  [x] Reset password (/reset-password)
+  [x] Dashboard (/dashboard)
+  [x] Calendar (/calendar)
+  [x] Global 404 page (app/not-found.js)
+  [x] Global error boundary (app/error.js)
+
+SESSION CRUD
+  [x] Log a new session (hours + minutes + date + optional notes)
+  [x] Inline edit session (today's sessions only)
+  [x] Delete session (no confirmation dialog)
+  [x] Backdate sessions (date picker, any date)
+  [x] 24-hour max constraint (minutes forced to 0 when hours = 24)
+  [x] 1-minute minimum validation
+
+STATISTICS
+  [x] Today's total
+  [x] This week's total (Monday-start week)
+  [x] This month's total
+  [x] Current streak (days)
+  [x] Streak warning ("Play today to keep it!") when streak excludes today
+  [x] Daily average
+  [x] Longest session
+
+CALENDAR
+  [x] Monthly heatmap grid (Mon–Sun, ISO week start)
+  [x] 6-level teal intensity scale
+  [x] Month navigation (Prev / Next with year rollover)
+  [x] Today cell highlighted with ring
+  [x] Clickable cells with session detail panel below
+  [x] Activity legend
+  [x] Time sub-label inside day cells when minutes > 0
+
+SHARED UTILITIES (lib/)
+  [x] supabaseClient.js — singleton Supabase client
+  [x] useAuth.js — auth guard hook
+  [x] utils.js — formatTime(), localDateStr()
+
+DEPLOYMENT
+  [x] Vercel deployment configured (.vercel/project.json)
+
+=============================================================
+WHAT IS PARTIALLY DONE / UNVERIFIED
+=============================================================
+
+  [?] Email confirmation requirement — referenced in signup success message
+      but depends on Supabase project settings (not verifiable from code alone)
+
+  [?] Row-Level Security on Supabase — required for data isolation but
+      not visible in this repo (no supabase/ migrations folder)
+
+  [?] Supabase table schema — inferred from query patterns; no migration
+      files exist in the repo to confirm column types
+
+=============================================================
+KNOWN ROUGH EDGES (AS OBSERVED IN CODE)
+=============================================================
+
+  1. No mobile-responsive layout — zero breakpoint prefixes used.
+     The 3-col stat grid and 3-col form row do not reflow on small screens.
+
+  2. Stats section hidden when user has zero sessions — no onboarding prompt
+     or empty-state call-to-action.
+
+  3. Only today's sessions shown on dashboard — no way to view/edit
+     sessions from other dates without going to the calendar (which is read-only).
+
+  4. Calendar is read-only — users who realize they missed logging yesterday
+     must go back to dashboard, change the date picker, and log from there.
+     The workflow is not obvious.
+
+  5. No delete confirmation dialog — sessions deleted immediately on click.
+
+  6. formatTime(0) returns "0m" everywhere (via lib/utils.js) — calendar cells
+     with 0 minutes show no time sub-label (guarded by `mins > 0` check),
+     which is correct, but the legend label "None" is the only indicator.
+
+  7. Stats cards are a 3×2 grid but the 4th stat (Streak) appears in position
+     4 (2nd row, 1st column), which may look unbalanced with the "Play today!"
+     warning text expanding that cell's height.
+
+  8. Fetching all sessions every time (no pagination, no date range filter) —
+     acceptable now but will slow as session count grows.
+
+  9. No visual loading skeleton — just a plain text "Loading..." string.
+
+  10. Inline-edit inputs use `rounded` (not `rounded-lg`) — visual inconsistency
+      with the main form inputs.
