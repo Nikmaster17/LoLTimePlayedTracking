@@ -9,12 +9,12 @@ import { formatTime, localDateStr } from '@/lib/utils'
 const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 function getIntensityClass(minutes) {
-  if (minutes === 0) return 'bg-gray-700 text-gray-500'
-  if (minutes <= 30) return 'bg-teal-900 text-teal-300'
-  if (minutes <= 60) return 'bg-teal-800 text-teal-200'
-  if (minutes <= 120) return 'bg-teal-600 text-white'
-  if (minutes <= 180) return 'bg-teal-500 text-white'
-  return 'bg-teal-400 text-gray-900'
+  if (minutes === 0) return 'bg-lol-panel-light text-lol-text-muted'
+  if (minutes <= 30) return 'bg-[#062830] text-lol-teal-dim'
+  if (minutes <= 60) return 'bg-[#073D47] text-lol-teal-dim'
+  if (minutes <= 120) return 'bg-[#095A6B] text-lol-crystal-blue'
+  if (minutes <= 180) return 'bg-lol-teal-dim text-lol-dark-navy'
+  return 'bg-lol-teal-primary text-lol-dark-navy'
 }
 
 function buildCalendarGrid(year, month) {
@@ -89,50 +89,71 @@ export default function CalendarPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <p className="text-gray-400">Loading...</p>
+      <div className="min-h-screen bg-lol-dark-navy p-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="skeleton-shimmer rounded-[2px] h-10 mb-6 border border-lol-border-gold" />
+          <div className="skeleton-shimmer rounded-[2px] border border-lol-border-gold h-80 mb-4" />
+          <div className="skeleton-shimmer rounded-[2px] border border-lol-border-gold h-8" />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8">
+    <div className="min-h-screen bg-lol-dark-navy p-8">
       <div className="max-w-2xl mx-auto">
 
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-amber-400">Gaming Time Tracker</h1>
+        <div className="flex justify-between items-center pb-5 mb-6 border-b border-lol-border-gold">
+          <h1 className="text-2xl font-bold text-lol-gold-primary tracking-widest uppercase">
+            League Of Legends Playtime Tracker
+          </h1>
           <Link
             href="/dashboard"
-            className="text-sm bg-gray-700 hover:bg-gray-600 text-gray-200 px-3 py-1 rounded-lg"
+            className="text-sm bg-lol-panel-light hover:bg-lol-panel-mid text-lol-text-primary px-3 py-1 rounded-[2px] border border-lol-border-gold"
           >
             Dashboard
           </Link>
         </div>
 
-        <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-6 mb-4">
+        <div className="bg-lol-panel-gradient rounded-[2px] shadow-lol-card border border-lol-border-gold p-6 mb-4">
           <div className="flex justify-between items-center mb-4">
             <button
               onClick={prevMonth}
-              className="text-gray-400 hover:text-white px-2 py-1 rounded-lg hover:bg-gray-700"
+              className="text-lol-text-secondary hover:text-lol-gold-light px-2 py-1 rounded-[2px] hover:bg-lol-panel-light border border-lol-border-gold"
             >
               ← Prev
             </button>
-            <h2 className="text-lg font-semibold text-white">{monthName} {viewYear}</h2>
+            <h2 className="text-lg font-semibold text-lol-gold-light tracking-wide uppercase">
+              {monthName} {viewYear}
+            </h2>
             <button
               onClick={nextMonth}
-              className="text-gray-400 hover:text-white px-2 py-1 rounded-lg hover:bg-gray-700"
+              className="text-lol-text-secondary hover:text-lol-gold-light px-2 py-1 rounded-[2px] hover:bg-lol-panel-light border border-lol-border-gold"
             >
               Next →
             </button>
           </div>
 
           {sessionsLoading ? (
-            <p className="text-gray-400 text-sm text-center py-8">Loading...</p>
+            <div role="status" aria-label="Loading calendar">
+              <div className="grid grid-cols-7 mb-1">
+                {DAY_LABELS.map((d) => (
+                  <div key={d} className="text-center text-xs font-medium text-lol-text-secondary py-1">
+                    {d}
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-7 gap-1">
+                {[...Array(35)].map((_, i) => (
+                  <div key={i} className="skeleton-shimmer aspect-square rounded-[2px]" />
+                ))}
+              </div>
+            </div>
           ) : (
             <div>
               <div className="grid grid-cols-7 mb-1">
                 {DAY_LABELS.map((d) => (
-                  <div key={d} className="text-center text-xs font-medium text-gray-400 py-1">
+                  <div key={d} className="text-center text-xs font-medium text-lol-text-secondary py-1">
                     {d}
                   </div>
                 ))}
@@ -151,11 +172,11 @@ export default function CalendarPage() {
                       key={dateStr}
                       onClick={() => setSelectedDate(isSelected ? null : dateStr)}
                       className={`
-                        aspect-square rounded-lg flex flex-col items-center justify-center text-xs cursor-pointer transition-opacity hover:opacity-75
+                        aspect-square rounded-[2px] flex flex-col items-center justify-center text-xs cursor-pointer transition-opacity hover:opacity-75
                         ${getIntensityClass(mins)}
-                        ${isToday ? 'ring-2 ring-teal-400 font-bold' : ''}
-                        ${isSelected && !isToday ? 'ring-2 ring-teal-600 ring-offset-1 ring-offset-gray-800' : ''}
-                        ${isSelected && isToday ? 'ring-2 ring-teal-400 ring-offset-1 ring-offset-gray-800' : ''}
+                        ${isToday ? 'ring-2 ring-lol-teal-primary font-bold' : ''}
+                        ${isSelected && !isToday ? 'ring-2 ring-lol-gold-primary ring-offset-1 ring-offset-lol-panel-dark' : ''}
+                        ${isSelected && isToday ? 'ring-2 ring-lol-teal-primary ring-offset-1 ring-offset-lol-panel-dark' : ''}
                       `}
                     >
                       <span>{day}</span>
@@ -172,31 +193,31 @@ export default function CalendarPage() {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-3 items-center text-xs text-gray-400 mb-6 px-1">
+        <div className="flex flex-wrap gap-3 items-center text-xs text-lol-text-secondary mb-6 px-1">
           <span className="font-medium">Activity:</span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded bg-gray-700 inline-block border border-gray-600" /> None
+            <span className="w-4 h-4 rounded-[2px] bg-lol-panel-light inline-block border border-lol-border-gold" /> None
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded bg-teal-900 inline-block" /> 1–30m
+            <span className="w-4 h-4 rounded-[2px] bg-[#062830] inline-block" /> 1–30m
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded bg-teal-800 inline-block" /> 31–60m
+            <span className="w-4 h-4 rounded-[2px] bg-[#073D47] inline-block" /> 31–60m
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded bg-teal-600 inline-block" /> 1–2h
+            <span className="w-4 h-4 rounded-[2px] bg-[#095A6B] inline-block" /> 1–2h
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded bg-teal-500 inline-block" /> 2–3h
+            <span className="w-4 h-4 rounded-[2px] bg-lol-teal-dim inline-block" /> 2–3h
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded bg-teal-400 inline-block" /> 3h+
+            <span className="w-4 h-4 rounded-[2px] bg-lol-teal-primary inline-block" /> 3h+
           </span>
         </div>
 
         {selectedDate && (
-          <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-6">
-            <h2 className="text-lg font-semibold mb-4 text-white">
+          <div className="bg-lol-panel-gradient rounded-[2px] shadow-lol-card border border-lol-border-gold p-6">
+            <h2 className="text-lg font-semibold mb-4 text-lol-gold-light">
               {new Date(selectedDate + 'T12:00:00').toLocaleDateString('default', {
                 weekday: 'long',
                 month: 'long',
@@ -207,18 +228,31 @@ export default function CalendarPage() {
             {sessionsByDate[selectedDate] ? (
               <ul className="flex flex-col gap-3">
                 {sessionsByDate[selectedDate].map((s) => (
-                  <li key={s.id} className="border border-gray-600 rounded-lg p-3 bg-gray-700">
-                    <p className="font-medium text-white">
+                  <li key={s.id} className="border border-lol-border-gold rounded-[2px] p-3 bg-lol-panel-light">
+                    <p className="font-medium text-lol-gold-light">
                       {s.hours}h {s.minutes}m
+                      {s.game_mode && (
+                        <span className="ml-2 text-lol-teal-primary text-sm font-normal">{s.game_mode}</span>
+                      )}
                     </p>
+                    {s.champion && (
+                      <p className="text-sm text-lol-text-secondary mt-0.5">Champion: {s.champion}</p>
+                    )}
+                    {(s.wins != null || s.losses != null) && (
+                      <p className="text-sm mt-0.5">
+                        {s.wins != null && <span className="text-lol-teal-primary">{s.wins}W</span>}
+                        {s.wins != null && s.losses != null && <span className="text-lol-text-muted mx-1">·</span>}
+                        {s.losses != null && <span className="text-lol-red-accent">{s.losses}L</span>}
+                      </p>
+                    )}
                     {s.notes && (
-                      <p className="text-sm text-gray-400 mt-1">{s.notes}</p>
+                      <p className="text-sm text-lol-text-secondary mt-1">{s.notes}</p>
                     )}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-gray-400 text-sm">No sessions logged on this day.</p>
+              <p className="text-lol-text-secondary text-sm">No sessions logged on this day.</p>
             )}
           </div>
         )}

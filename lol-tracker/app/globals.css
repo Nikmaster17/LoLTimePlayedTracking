@@ -1,7 +1,64 @@
 @import "tailwindcss";
 
+@theme {
+  --color-lol-dark-navy: #010A13;
+  --color-lol-panel-dark: #0A1428;
+  --color-lol-panel-mid: #0F2041;
+  --color-lol-panel-light: #1E2D40;
+  --color-lol-gold-primary: #C89B3C;
+  --color-lol-gold-light: #F0E6D3;
+  --color-lol-gold-dark: #785A28;
+  --color-lol-gold-subtle: #463714;
+  --color-lol-teal-primary: #0BC4E3;
+  --color-lol-teal-dim: #0594AA;
+  --color-lol-crystal-blue: #C8DDE8;
+  --color-lol-red-accent: #C23B22;
+  --color-lol-text-primary: #F0E6D3;
+  --color-lol-text-secondary: #A09B8C;
+  --color-lol-text-muted: #5B5A56;
+  --color-lol-border-gold: #785A28;
+  --color-lol-border-bright: #C89B3C;
+  --font-display: var(--font-cinzel), Georgia, serif;
+}
+
+@keyframes lol-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
 body {
-  background: #111827;
-  color: #f9fafb;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #010A13;
+  color: #F0E6D3;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@layer base {
+  h1, h2 {
+    font-family: var(--font-display);
+  }
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid #0BC4E3;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .bg-lol-panel-gradient {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cline x1='0' y1='30' x2='60' y2='30' stroke='%23C89B3C' stroke-width='0.5' stroke-opacity='0.1'/%3E%3Cline x1='30' y1='0' x2='30' y2='60' stroke='%23C89B3C' stroke-width='0.5' stroke-opacity='0.1'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23C89B3C' fill-opacity='0.15'/%3E%3C/svg%3E") repeat,
+      linear-gradient(160deg, #0F2041 0%, #0A1428 60%, #010A13 100%);
+  }
+  .shadow-lol-card {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(120, 90, 40, 0.5);
+  }
+  .shadow-lol-teal-glow {
+    box-shadow: 0 0 16px rgba(11, 196, 227, 0.35);
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, #1E2D40 25%, #2A3F58 50%, #1E2D40 75%);
+    background-size: 200% 100%;
+    animation: lol-shimmer 1.5s ease-in-out infinite;
+  }
 }

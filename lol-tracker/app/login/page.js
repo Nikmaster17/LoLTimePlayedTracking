@@ -28,12 +28,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center text-amber-400">Log in</h1>
+    <div className="min-h-screen flex items-center justify-center bg-lol-dark-navy">
+      <div className="w-full max-w-md bg-lol-panel-gradient rounded-[2px] shadow-lol-card border border-lol-border-gold p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center text-lol-gold-primary tracking-wider uppercase">
+          Log in
+        </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-gray-300" htmlFor="email">
+            <label className="block text-sm font-medium mb-1 text-lol-text-primary" htmlFor="email">
               Email
             </label>
             <input
@@ -42,11 +44,11 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 placeholder-gray-400"
+              className="w-full bg-lol-panel-light border border-lol-border-gold text-lol-text-primary rounded-[2px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lol-teal-primary placeholder-lol-text-muted"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-gray-300" htmlFor="password">
+            <label className="block text-sm font-medium mb-1 text-lol-text-primary" htmlFor="password">
               Password
             </label>
             <input
@@ -55,26 +57,26 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 placeholder-gray-400"
+              className="w-full bg-lol-panel-light border border-lol-border-gold text-lol-text-primary rounded-[2px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lol-teal-primary placeholder-lol-text-muted"
             />
           </div>
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-lol-red-accent text-sm">{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="bg-teal-600 text-white rounded-lg py-2 font-medium hover:bg-teal-500 disabled:opacity-50"
+            className="bg-lol-teal-primary text-lol-dark-navy rounded-[2px] py-2 font-medium transition-shadow hover:shadow-lol-teal-glow disabled:opacity-50"
           >
             {loading ? 'Logging in...' : 'Log in'}
           </button>
         </form>
-        <p className="text-center text-sm mt-4 text-gray-400">
+        <p className="text-center text-sm mt-4 text-lol-text-secondary">
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-teal-400 hover:underline">
+          <Link href="/signup" className="text-lol-teal-primary hover:underline">
             Sign up
           </Link>
         </p>
-        <p className="text-center text-sm mt-2 text-gray-400">
-          <Link href="/forgot-password" className="text-teal-400 hover:underline">
+        <p className="text-center text-sm mt-2 text-lol-text-secondary">
+          <Link href="/forgot-password" className="text-lol-teal-primary hover:underline">
             Forgot password?
           </Link>
         </p>
